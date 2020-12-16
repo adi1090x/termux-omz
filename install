@@ -82,7 +82,7 @@ setup_omz () {
 	{ echo ${ORANGE}" [*] Applying color-scheme, font & zsh theme..."; echo; }
 	{ cp $DIR/.files/colors.properties $HOME/.termux/colors.properties; cp $DIR/.files/font.ttf $HOME/.termux/font.ttf; }
 	sed -i 's/ZSH_THEME="robbyrussell"/ZSH_THEME="agnoster"/g' $HOME/.zshrc
-	{ termux-setup-storage; termux-reload-settings; }
+	{ termux-reload-settings; }
 	{ echo ${GREEN}" [*] Setup completed. Enjoy oh-my-zsh in Termux."; echo; }
 	{ reset_color; exit; }
 }
