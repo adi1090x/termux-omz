@@ -1,0 +1,28 @@
+How to uninstall ? ISSUE #3
+
+After following these steps, termux should be back to normal :
+---------------------------------------------------------------------------------------------------------------
+Steps :
+(just copy them one by one follow the steps from up to down don't go down to up 
+and 
+execute or just copy paste them one at a time                       1 2 are explanations for them serially) : 
+---------------------------------------------------------------------------------------------------------------
+cd ~/                                                      
+rm .termux/colors.properties                 
+rm .termux/font.ttf                                 
+rm .zshrc                                                 
+rm -r .oh-my-zsh                                    
+chsh -s bash                                           
+termux-reload-settings                          
+logout                                                    
+---------------------------------------------------------------------------------------------------------------
+1 change directory to home directory
+2 remove termux styling colour
+3 remove termux styling font
+4 remove the zsh config file
+5 remove the main directory for oh-my-zsh
+6 change the default login shell to bash
+7 reload all settings for termux
+8 logout, log back in by opening the app again
+---------------------------------------------------------------------------------------------------------------
+I think this script did not install anything new as particular(it installed 'zsh' which is just a termux repo package) other than just copying config files here and there and modifying .zshrc, resulting in change of colour and font, executing the above will revert to default colour and font and to default bash shell (and even to default zsh config), apart from this you can also just remove zsh by simply 'apt remove zsh'. 
