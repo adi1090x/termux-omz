@@ -8,10 +8,14 @@
 ## A simple script to setup oh-my-zsh in termux terminal emulator.
 
 ## ANSI Colors (FG & BG)
-RED="$(printf '\033[31m')"  GREEN="$(printf '\033[32m')"  ORANGE="$(printf '\033[33m')"  BLUE="$(printf '\033[34m')"
-MAGENTA="$(printf '\033[35m')"  CYAN="$(printf '\033[36m')"  WHITE="$(printf '\033[37m')" BLACK="$(printf '\033[30m')"
-REDBG="$(printf '\033[41m')"  GREENBG="$(printf '\033[42m')"  ORANGEBG="$(printf '\033[43m')"  BLUEBG="$(printf '\033[44m')"
-MAGENTABG="$(printf '\033[45m')"  CYANBG="$(printf '\033[46m')"  WHITEBG="$(printf '\033[47m')" BLACKBG="$(printf '\033[40m')"
+RED="$(printf '\033[31m')"         GREEN="$(printf '\033[32m')"
+ORANGE="$(printf '\033[33m')"      BLUE="$(printf '\033[34m')"
+MAGENTA="$(printf '\033[35m')"     CYAN="$(printf '\033[36m')"
+WHITE="$(printf '\033[37m')"       BLACK="$(printf '\033[30m')"
+REDBG="$(printf '\033[41m')"       GREENBG="$(printf '\033[42m')"
+ORANGEBG="$(printf '\033[43m')"    BLUEBG="$(printf '\033[44m')"
+MAGENTABG="$(printf '\033[45m')"   CYANBG="$(printf '\033[46m')"
+WHITEBG="$(printf '\033[47m')"     BLACKBG="$(printf '\033[40m')"
 DEFAULT_FG="$(printf '\033[39m')"  DEFAULT_BG="$(printf '\033[49m')"
 
 ## Directories
@@ -22,7 +26,7 @@ DIR="$(pwd)"
 reset_color () {
 	{ printf '\033[39m'; printf '\033[49m'; }
 }
-	
+
 ## Banner
 banner () {
     clear
@@ -53,10 +57,10 @@ trap exit_on_signal_SIGTERM SIGTERM
 ## Install ZSH
 install_zsh () {
 	{ echo ${ORANGE}" [*] Installing ZSH..."${CYAN}; echo; }
-	if [[ -f $PREFIX/bin/zsh ]]; then
+	if [[ -e $PREFIX/bin/zsh ]]; then
 		{ echo ${GREEN}" [*] ZSH is already Installed!"; echo; }
 	else
-		{ pkg update -y; pkg install -y zsh; }
+		{ pkg --check-mirror update -y; pkg install -y zsh; }
 		(type -p zsh &> /dev/null) && { echo; echo ${GREEN}" [*] Succesfully Installed!"; echo; } || { echo; echo ${RED}" [!] Error Occured, ZSH is not installed."; echo; reset_color; exit 1; }
 	fi
 }
@@ -73,7 +77,7 @@ backup_tmux () {
 ## Setup OMZ
 setup_omz () {
 	{ echo ${ORANGE}" [*] Cloning oh-my-zsh framework..."; echo ${CYAN}; }
-	git clone --depth 1 git://github.com/robbyrussell/oh-my-zsh.git $HOME/.oh-my-zsh
+	git clone --depth 1 https://github.com/ohmyzsh/ohmyzsh.git $HOME/.oh-my-zsh
 	[[ -d $HOME/.oh-my-zsh ]] && { echo; echo ${GREEN}" [*] Succesfully Cloned!"; echo; } || { echo; echo ${RED}" [!] Error Occured, failed to clone OMZ."; echo; reset_color; exit 1; }
 	{ echo ${ORANGE}" [*] Setting up configurations..."; echo; }
 	cp $HOME/.oh-my-zsh/templates/zshrc.zsh-template $HOME/.zshrc
@@ -82,7 +86,7 @@ setup_omz () {
 	{ echo ${ORANGE}" [*] Applying color-scheme, font & zsh theme..."; echo; }
 	{ cp $DIR/.files/colors.properties $HOME/.termux/colors.properties; cp $DIR/.files/font.ttf $HOME/.termux/font.ttf; }
 	sed -i 's/ZSH_THEME="robbyrussell"/ZSH_THEME="agnoster"/g' $HOME/.zshrc
-	{ termux-setup-storage; termux-reload-settings; }
+	termux-reload-settings
 	{ echo ${GREEN}" [*] Setup completed. Enjoy oh-my-zsh in Termux."; echo; }
 	{ reset_color; exit; }
 }
